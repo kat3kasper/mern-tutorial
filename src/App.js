@@ -3,16 +3,13 @@ class BugList extends React.Component {
     super(props);
     this.state = {bugs: [{id: 1, status: "Open", priority: "High", owner: "Marco", title: "Bug numero uno"},
                   {id: 2, status: "In Progress", priority: "Low", owner: "Anne Marie", title: "Numba 2"}]};
-    this.testButtonClicked = this.testButtonClicked.bind(this);
-  }
-
-  testButtonClicked() {
-    const bug = {id: 3, status: "Closed", priority: "High", owner: "Marco", title: "bug Tres"};
-    this.addBug(bug);
+    this.addBug = this.addBug.bind(this);
   }
 
   addBug(bug) {
+    console.log("bug: ", this.state);
     const bugsModified = this.state.bugs.slice();
+    bug.id = this.state.bugs.length + 1;
     bugsModified.push(bug);
 
     this.setState({bugs: bugsModified});
@@ -23,8 +20,7 @@ class BugList extends React.Component {
     return <div>
       <BugFilter />
       <BugTable bugs={this.state.bugs}/>
-      <BugAdd />
-      <button onClick={this.testButtonClicked}>Add Bug</button>
+      <BugAdd addBug={this.addBug}/>
     </div>;
   }
 }
@@ -56,9 +52,53 @@ class BugTable extends React.Component {
   }
 }
 class BugAdd extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      status: '',
+      priority: '',
+      owner: '',
+      title: ''
+    }
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.addBug({status: this.state.status, priority: this.state.priority, owner: this.state.owner, title: this.state.title});
+    this.setState({status: '', priority: '', owner: '', title: ''});
+  }
+  handleInput(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({[name]: value});
+  }
   render() {
     console.log('BugAdd rendered');
-    return <h1>BugAdd</h1>;
+    return <form onSubmit={this.handleSubmit}>
+      <input
+        type="text"
+        name="status"
+        value={this.state.status}
+        onChange={this.handleInput}/>
+      <input
+        type="text"
+        name="priority"
+        value={this.state.priority}
+        onChange={this.handleInput}/>
+      <input
+        type="text"
+        name="owner"
+        value={this.state.owner}
+        onChange={this.handleInput}/>
+      <input
+        type="text"
+        name="title"
+        value={this.state.title}
+        onChange={this.handleInput}/>
+      <input type="submit" value="submit"/>
+    </form>;
   }
 }
 
