@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -18,13 +18,24 @@ var BugList = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (BugList.__proto__ || Object.getPrototypeOf(BugList)).call(this, props));
 
-    _this.state = { bugs: [{ id: 1, status: "Open", priority: "High", owner: "Marco", title: "Bug numero uno" }, { id: 2, status: "In Progress", priority: "Low", owner: "Anne Marie", title: "Numba 2" }] };
+    _this.state = { bugs: [] };
     _this.addBug = _this.addBug.bind(_this);
     return _this;
   }
 
   _createClass(BugList, [{
-    key: "addBug",
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      fetch('/api/bugs').then(function (response) {
+        return response.json();
+      }).then(function (bugs) {
+        _this2.setState({ bugs: bugs });
+      });
+    }
+  }, {
+    key: 'addBug',
     value: function addBug(bug) {
       console.log("bug: ", this.state);
       var bugsModified = this.state.bugs.slice();
@@ -34,11 +45,11 @@ var BugList = function (_React$Component) {
       this.setState({ bugs: bugsModified });
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       console.log('BugList rendered');
       return React.createElement(
-        "div",
+        'div',
         null,
         React.createElement(BugFilter, null),
         React.createElement(BugTable, { bugs: this.state.bugs }),
@@ -60,13 +71,13 @@ var BugFilter = function (_React$Component2) {
   }
 
   _createClass(BugFilter, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       console.log('BugFilter rendered');
       return React.createElement(
-        "h1",
+        'h1',
         null,
-        "BugFilter"
+        'BugFilter'
       );
     }
   }]);
@@ -84,7 +95,7 @@ var BugTable = function (_React$Component3) {
   }
 
   _createClass(BugTable, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       console.log('BugTable rendered');
       var bugRows = this.props.bugs.map(function (bug) {
@@ -92,43 +103,43 @@ var BugTable = function (_React$Component3) {
       });
 
       return React.createElement(
-        "table",
+        'table',
         null,
         React.createElement(
-          "thead",
+          'thead',
           null,
           React.createElement(
-            "tr",
+            'tr',
             null,
             React.createElement(
-              "th",
+              'th',
               null,
-              "ID"
+              'ID'
             ),
             React.createElement(
-              "th",
+              'th',
               null,
-              "Status"
+              'Status'
             ),
             React.createElement(
-              "th",
+              'th',
               null,
-              "Priority"
+              'Priority'
             ),
             React.createElement(
-              "th",
+              'th',
               null,
-              "Owner"
+              'Owner'
             ),
             React.createElement(
-              "th",
+              'th',
               null,
-              "Title"
+              'Title'
             )
           )
         ),
         React.createElement(
-          "tbody",
+          'tbody',
           null,
           bugRows
         )
@@ -145,28 +156,28 @@ var BugAdd = function (_React$Component4) {
   function BugAdd(props) {
     _classCallCheck(this, BugAdd);
 
-    var _this4 = _possibleConstructorReturn(this, (BugAdd.__proto__ || Object.getPrototypeOf(BugAdd)).call(this, props));
+    var _this5 = _possibleConstructorReturn(this, (BugAdd.__proto__ || Object.getPrototypeOf(BugAdd)).call(this, props));
 
-    _this4.state = {
+    _this5.state = {
       status: '',
       priority: '',
       owner: '',
       title: ''
     };
-    _this4.handleSubmit = _this4.handleSubmit.bind(_this4);
-    _this4.handleInput = _this4.handleInput.bind(_this4);
-    return _this4;
+    _this5.handleSubmit = _this5.handleSubmit.bind(_this5);
+    _this5.handleInput = _this5.handleInput.bind(_this5);
+    return _this5;
   }
 
   _createClass(BugAdd, [{
-    key: "handleSubmit",
+    key: 'handleSubmit',
     value: function handleSubmit(e) {
       e.preventDefault();
       this.props.addBug({ status: this.state.status, priority: this.state.priority, owner: this.state.owner, title: this.state.title });
       this.setState({ status: '', priority: '', owner: '', title: '' });
     }
   }, {
-    key: "handleInput",
+    key: 'handleInput',
     value: function handleInput(event) {
       var target = event.target;
       var value = target.value;
@@ -174,33 +185,33 @@ var BugAdd = function (_React$Component4) {
       this.setState(_defineProperty({}, name, value));
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       console.log('BugAdd rendered');
       return React.createElement(
-        "form",
+        'form',
         { onSubmit: this.handleSubmit },
-        React.createElement("input", {
-          type: "text",
-          name: "status",
+        React.createElement('input', {
+          type: 'text',
+          name: 'status',
           value: this.state.status,
           onChange: this.handleInput }),
-        React.createElement("input", {
-          type: "text",
-          name: "priority",
+        React.createElement('input', {
+          type: 'text',
+          name: 'priority',
           value: this.state.priority,
           onChange: this.handleInput }),
-        React.createElement("input", {
-          type: "text",
-          name: "owner",
+        React.createElement('input', {
+          type: 'text',
+          name: 'owner',
           value: this.state.owner,
           onChange: this.handleInput }),
-        React.createElement("input", {
-          type: "text",
-          name: "title",
+        React.createElement('input', {
+          type: 'text',
+          name: 'title',
           value: this.state.title,
           onChange: this.handleInput }),
-        React.createElement("input", { type: "submit", value: "submit" })
+        React.createElement('input', { type: 'submit', value: 'submit' })
       );
     }
   }]);
@@ -218,34 +229,34 @@ var BugRow = function (_React$Component5) {
   }
 
   _createClass(BugRow, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       console.log('BugRow rendered');
       return React.createElement(
-        "tr",
+        'tr',
         null,
         React.createElement(
-          "td",
+          'td',
           null,
           this.props.bug.id
         ),
         React.createElement(
-          "td",
+          'td',
           null,
           this.props.bug.status
         ),
         React.createElement(
-          "td",
+          'td',
           null,
           this.props.bug.priority
         ),
         React.createElement(
-          "td",
+          'td',
           null,
           this.props.bug.owner
         ),
         React.createElement(
-          "td",
+          'td',
           null,
           this.props.bug.title
         )

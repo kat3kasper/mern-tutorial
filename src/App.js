@@ -1,9 +1,14 @@
 class BugList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {bugs: [{id: 1, status: "Open", priority: "High", owner: "Marco", title: "Bug numero uno"},
-                  {id: 2, status: "In Progress", priority: "Low", owner: "Anne Marie", title: "Numba 2"}]};
+    this.state = {bugs: []};
     this.addBug = this.addBug.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('/api/bugs').then(response => response.json()).then(bugs => {
+      this.setState({ bugs });
+    });
   }
 
   addBug(bug) {
