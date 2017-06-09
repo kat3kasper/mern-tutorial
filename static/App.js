@@ -1,10 +1,12 @@
 class BugList extends React.Component {
   render() {
+    const bugs = [{ id: 1, status: "Open", priority: "High", owner: "Marco", title: "Bug numero uno" }, { id: 2, status: "In Progress", priority: "Low", owner: "Anne Marie", title: "Numba 2" }];
+
     return React.createElement(
       "div",
       null,
       React.createElement(BugFilter, null),
-      React.createElement(BugTable, null),
+      React.createElement(BugTable, { bugs: bugs }),
       React.createElement(BugAdd, null)
     );
   }
@@ -20,6 +22,8 @@ class BugFilter extends React.Component {
 }
 class BugTable extends React.Component {
   render() {
+    const bugRows = this.props.bugs.map(bug => React.createElement(BugRow, { key: bug.id, bug: bug }));
+
     return React.createElement(
       "table",
       null,
@@ -59,8 +63,7 @@ class BugTable extends React.Component {
       React.createElement(
         "tbody",
         null,
-        React.createElement(BugRow, { id: 1, status: "Open", priority: "High", owner: "Marco", title: "bug numero uno" }),
-        React.createElement(BugRow, { id: 2, status: "In Progress", priority: "Low", owner: "Anne Marie", title: "number 2" })
+        bugRows
       )
     );
   }
@@ -83,27 +86,27 @@ class BugRow extends React.Component {
       React.createElement(
         "td",
         null,
-        this.props.id
+        this.props.bug.id
       ),
       React.createElement(
         "td",
         null,
-        this.props.status
+        this.props.bug.status
       ),
       React.createElement(
         "td",
         null,
-        this.props.priority
+        this.props.bug.priority
       ),
       React.createElement(
         "td",
         null,
-        this.props.owner
+        this.props.bug.owner
       ),
       React.createElement(
         "td",
         null,
-        this.props.title
+        this.props.bug.title
       )
     );
   }

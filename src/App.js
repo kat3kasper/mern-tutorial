@@ -1,8 +1,11 @@
 class BugList extends React.Component {
   render() {
+    const bugs = [{id: 1, status: "Open", priority: "High", owner: "Marco", title: "Bug numero uno"},
+                  {id: 2, status: "In Progress", priority: "Low", owner: "Anne Marie", title: "Numba 2"}];
+
     return <div>
       <BugFilter />
-      <BugTable />
+      <BugTable bugs={bugs}/>
       <BugAdd />
     </div>;
   }
@@ -14,6 +17,8 @@ class BugFilter extends React.Component {
 }
 class BugTable extends React.Component {
   render() {
+    const bugRows = this.props.bugs.map((bug) => <BugRow key={bug.id} bug={bug}/>);
+
     return <table>
       <thead>
         <tr>
@@ -25,8 +30,7 @@ class BugTable extends React.Component {
         </tr>
       </thead>
       <tbody>
-        <BugRow id={1} status="Open" priority="High" owner="Marco" title="bug numero uno"/>
-        <BugRow id={2} status="In Progress" priority="Low" owner="Anne Marie" title="number 2"/>
+        {bugRows}
       </tbody>
     </table>;
   }
@@ -40,11 +44,11 @@ class BugAdd extends React.Component {
 class BugRow extends React.Component {
   render() {
     return <tr>
-      <td>{this.props.id}</td>
-      <td>{this.props.status}</td>
-      <td>{this.props.priority}</td>
-      <td>{this.props.owner}</td>
-      <td>{this.props.title}</td>
+      <td>{this.props.bug.id}</td>
+      <td>{this.props.bug.status}</td>
+      <td>{this.props.bug.priority}</td>
+      <td>{this.props.bug.owner}</td>
+      <td>{this.props.bug.title}</td>
     </tr>;
   }
 }
