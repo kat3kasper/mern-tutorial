@@ -1,12 +1,19 @@
 class BugList extends React.Component {
-  render() {
-    const bugs = [{ id: 1, status: "Open", priority: "High", owner: "Marco", title: "Bug numero uno" }, { id: 2, status: "In Progress", priority: "Low", owner: "Anne Marie", title: "Numba 2" }];
+  constructor(props) {
+    super(props);
+    this.state = { bugs: [{ id: 1, status: "Open", priority: "High", owner: "Marco", title: "Bug numero uno" }, { id: 2, status: "In Progress", priority: "Low", owner: "Anne Marie", title: "Numba 2" }] };
+  }
 
+  getBugs() {
+    return this.state.bugs;
+  }
+
+  render() {
     return React.createElement(
       "div",
       null,
       React.createElement(BugFilter, null),
-      React.createElement(BugTable, { bugs: bugs }),
+      React.createElement(BugTable, { bugs: this.getBugs() }),
       React.createElement(BugAdd, null)
     );
   }
