@@ -1,7 +1,9 @@
 var express = require('express')
+var bodyParser = require('body-parser');
+var MongoClient = require('mongodb').MongoClient;
 
 var app = express();
-var bodyParser = require('body-parser');
+var db;
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(express.static('static'));
@@ -10,7 +12,9 @@ let bugs = [{id: 1, status: "Open", priority: "High", owner: "Marco", title: "Bu
 							{id: 2, status: "In Progress", priority: "Low", owner: "Anne Marie", title: "Numba 2"}];
 
 app.get('/api/bugs', function(req, res) {
-	res.status(200).send(JSON.stringify(bugs));
+	db.collection("bugs").find().toArray(function(err, docs){
+		res.status(200).send(JSON.stringify(docs));
+	})
 })
 
 app.post('/api/bugs', function(req, res) {
@@ -21,7 +25,10 @@ app.post('/api/bugs', function(req, res) {
 	res.json(newBug);
 })
 
-var server = app.listen(3000, function() {
-	var port = server.address().port;
-	console.log("Started server at port", port);
+MongoClient.connect('mongodb://localhost/mern', function(err, dbConnection) {
+  db = dbConnection;
+  var server = app.listen(3000, function() {
+	  var port = server.address().port;
+	  console.log("Started server at port", port);
+  });
 });

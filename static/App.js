@@ -47,7 +47,6 @@ var BugList = function (_React$Component) {
         return response.json();
       }).then(function (bug) {
         var bugsModified = _this3.state.bugs.slice();
-        bug.id = _this3.state.bugs.length + 1;
         bugsModified.push(bug);
 
         _this3.setState({ bugs: bugsModified });
@@ -108,7 +107,7 @@ var BugTable = function (_React$Component3) {
     value: function render() {
       console.log('BugTable rendered');
       var bugRows = this.props.bugs.map(function (bug) {
-        return React.createElement(BugRow, { key: bug.id, bug: bug });
+        return React.createElement(BugRow, { key: bug._id, bug: bug });
       });
 
       return React.createElement(
@@ -247,7 +246,7 @@ var BugRow = function (_React$Component5) {
         React.createElement(
           'td',
           null,
-          this.props.bug.id
+          this.props.bug._id
         ),
         React.createElement(
           'td',

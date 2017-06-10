@@ -18,7 +18,6 @@ class BugList extends React.Component {
                         }
     fetch('/api/bugs', requestInit).then((response) => response.json()).then(bug => {
       const bugsModified = this.state.bugs.slice();
-      bug.id = this.state.bugs.length + 1;
       bugsModified.push(bug);
 
       this.setState({bugs: bugsModified});
@@ -43,7 +42,7 @@ class BugFilter extends React.Component {
 class BugTable extends React.Component {
   render() {
     console.log('BugTable rendered');
-    const bugRows = this.props.bugs.map((bug) => <BugRow key={bug.id} bug={bug}/>);
+    const bugRows = this.props.bugs.map((bug) => <BugRow key={bug._id} bug={bug}/>);
 
     return <table>
       <thead>
@@ -116,7 +115,7 @@ class BugRow extends React.Component {
   render() {
     console.log('BugRow rendered');
     return <tr>
-      <td>{this.props.bug.id}</td>
+      <td>{this.props.bug._id}</td>
       <td>{this.props.bug.status}</td>
       <td>{this.props.bug.priority}</td>
       <td>{this.props.bug.owner}</td>
