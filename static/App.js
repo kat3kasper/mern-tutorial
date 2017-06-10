@@ -37,12 +37,21 @@ var BugList = function (_React$Component) {
   }, {
     key: 'addBug',
     value: function addBug(bug) {
-      console.log("bug: ", this.state);
-      var bugsModified = this.state.bugs.slice();
-      bug.id = this.state.bugs.length + 1;
-      bugsModified.push(bug);
+      var _this3 = this;
 
-      this.setState({ bugs: bugsModified });
+      var requestInit = { method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bug)
+      };
+      fetch('/api/bugs', requestInit).then(function (response) {
+        return response.json();
+      }).then(function (bug) {
+        var bugsModified = _this3.state.bugs.slice();
+        bug.id = _this3.state.bugs.length + 1;
+        bugsModified.push(bug);
+
+        _this3.setState({ bugs: bugsModified });
+      });
     }
   }, {
     key: 'render',
@@ -156,17 +165,17 @@ var BugAdd = function (_React$Component4) {
   function BugAdd(props) {
     _classCallCheck(this, BugAdd);
 
-    var _this5 = _possibleConstructorReturn(this, (BugAdd.__proto__ || Object.getPrototypeOf(BugAdd)).call(this, props));
+    var _this6 = _possibleConstructorReturn(this, (BugAdd.__proto__ || Object.getPrototypeOf(BugAdd)).call(this, props));
 
-    _this5.state = {
+    _this6.state = {
       status: '',
       priority: '',
       owner: '',
       title: ''
     };
-    _this5.handleSubmit = _this5.handleSubmit.bind(_this5);
-    _this5.handleInput = _this5.handleInput.bind(_this5);
-    return _this5;
+    _this6.handleSubmit = _this6.handleSubmit.bind(_this6);
+    _this6.handleInput = _this6.handleInput.bind(_this6);
+    return _this6;
   }
 
   _createClass(BugAdd, [{

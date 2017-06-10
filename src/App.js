@@ -12,12 +12,17 @@ class BugList extends React.Component {
   }
 
   addBug(bug) {
-    console.log("bug: ", this.state);
-    const bugsModified = this.state.bugs.slice();
-    bug.id = this.state.bugs.length + 1;
-    bugsModified.push(bug);
+    const requestInit = { method: 'POST',
+                          headers: {'Content-Type': 'application/json'},
+                          body: JSON.stringify(bug)
+                        }
+    fetch('/api/bugs', requestInit).then((response) => response.json()).then(bug => {
+      const bugsModified = this.state.bugs.slice();
+      bug.id = this.state.bugs.length + 1;
+      bugsModified.push(bug);
 
-    this.setState({bugs: bugsModified});
+      this.setState({bugs: bugsModified});
+    })
   }
 
   render() {
