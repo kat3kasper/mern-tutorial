@@ -9,7 +9,20 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(express.static('static'));
 
 app.get('/api/bugs', function(req, res) {
-	db.collection("bugs").find().toArray(function(err, docs){
+	let findQuery = {};
+	let priority = req.query.priority;
+	let status = req.query.status;
+
+	if (priority) {
+		findQuery.priority = priority;
+	}
+	if (status) {
+		findQuery.status = status
+	}
+
+	console.log("findQuery: ", findQuery);
+
+	db.collection("bugs").find(findQuery).toArray(function(err, docs){
 		res.status(200).send(JSON.stringify(docs));
 	})
 })
