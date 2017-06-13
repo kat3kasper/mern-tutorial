@@ -1,3 +1,6 @@
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 class BugList extends React.Component {
   constructor(props) {
     super(props);
