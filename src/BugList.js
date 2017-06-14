@@ -1,4 +1,5 @@
-var React = require('react');
+const React = require('react');
+const queryString = require('query-string');
 
 import BugAdd from './BugAdd.js';
 import BugFilter from './BugFilter.js';
@@ -44,12 +45,18 @@ export default class BugList extends React.Component {
     super(props);
     this.state = {bugs: []};
     this.addBug = this.addBug.bind(this);
+    this.loadData = this.loadData.bind(this);
+  }
+
+  loadData(filter) {
+    console.log(`/api/bugs/?${queryString.stringify(filter)}`);
+    fetch(`/api/bugs/?${queryString.stringify(filter)}`).then(response => response.json()).then(bugs => {
+      this.setState({ bugs });
+    });
   }
 
   componentDidMount() {
-    fetch('/api/bugs').then(response => response.json()).then(bugs => {
-      this.setState({ bugs });
-    });
+    this.loadData({});
   }
 
   addBug(bug) {
@@ -68,7 +75,7 @@ export default class BugList extends React.Component {
   render() {
     console.log('BugList rendered');
     return <div>
-      <BugFilter />
+      <BugFilter onSubmit={this.loadData}/>
       <BugTable bugs={this.state.bugs}/>
       <BugAdd addBug={this.addBug}/>
     </div>;
